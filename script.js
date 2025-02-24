@@ -154,7 +154,7 @@ window.cancelEdit = () => {
     const currentContent = document.getElementById('note-content').value;
 
     if (currentTitle.trim() !== "" || currentContent.trim() !== "") {
-        const confirmCancel = confirm("Catetan tos robih tapi teu acan disimpen. Yakin bade batalkeun?");
+        const confirmCancel = confirm("Yakin bade batalkeun?");
         if (!confirmCancel) {
             return;
         }
