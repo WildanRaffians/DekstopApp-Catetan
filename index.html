@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catetan</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <div class="container-field">
+                <h1>Catetan</h1>
+                <input type="text" id="note-title" placeholder="Jejer Catetan">
+                <textarea id="note-content" placeholder="Eusi Catetan" oninput="adjustTextareaHeight(this)"></textarea>
+                <div class="actions">
+                    
+                    <button id="add-note">Tambih Catatan</button>
+                    <button id="cancel-edit" style="display: none; background-color: orange;" onclick="cancelEdit()">Batal</button> <!-- Tombol batal -->
+                </div>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <h2>Catetan Kuring</h2>
+            <div class="search-container">
+                <input type="text" class="search" id="search-note" placeholder="Pilarian" oninput="searchNotes()">
+                <button id="clear-search" onclick="clearSearch()">✖</button>
+            </div>            
+            <div class="notes-container" id="notes-list"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

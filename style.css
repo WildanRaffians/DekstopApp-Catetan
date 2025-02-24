@@ -1,0 +1,165 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #ccc;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    display: flex;
+    height: 100vh;
+}
+
+.sidebar {
+    width: 400px;
+}
+
+.container-field {
+    display: flex;
+    flex-direction: column;
+    font-family: Arial, sans-serif;
+    background-color: white;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-left: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    align-items: center;
+    padding-bottom: 20px;
+}
+
+.container-field h1 {
+    font-size: 48px;
+    text-align: center;
+    color: #000;
+}
+
+.container-field input, .container-field textarea {
+    width: 85%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    resize: none;
+}
+
+.container-field button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    background-color: #007bff;
+    color: #fff;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+.container-field button:hover {
+    background-color: #0056b3;
+}
+
+.main-content {
+    flex: 1;
+    flex-direction: column;
+    font-family: Arial, sans-serif;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin: 20px;
+    overflow-y: auto;
+    display: flex;
+}
+
+.main-content h2 {
+    color: #000;
+}
+
+.search-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+.search {
+    flex: 1;
+    width: 96%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+#clear-search {
+    position: absolute;
+    right: 20px;
+    padding-bottom: 20px;
+    background: transparent;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    display: none; /* Sembunyikan awalnya */
+    color: gray;
+}
+
+#clear-search:hover {
+    color: black;
+}
+
+.notes-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.note-item {
+    padding-inline: 10px;
+    padding-bottom: 10px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    min-width: 150px;
+    max-width: 295px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.353);
+    margin-bottom: 16px;
+    height: 200px;
+}
+
+.note-item .note-content {
+    height: 100px;
+    overflow-y: auto;
+    padding-right: 5px; /* Agar tidak tertutup scrollbar */
+    white-space: pre-wrap;
+    font-size: 14px;
+    background-color: #fff;
+    margin-bottom: 5px;
+}
+
+.actions {
+    display: flex;
+    justify-content:end;
+    gap: 16px;
+}
+
+.edit {
+    background-color: orange;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.edit:hover {
+    background-color: rgb(181, 118, 0);
+}
+
+.delete {
+    background-color: red;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.delete:hover {
+    background-color: rgb(192, 0, 0);
+}
