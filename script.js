@@ -1,34 +1,17 @@
-const { ipcRenderer } = require('electron');
-const fs = require('fs');
-const path = require('path');
-
-const notesFilePath = path.join(__dirname, 'notes.json');
-
-// // ** Fungsi untuk menyesuaikan tinggi textarea **
-// function adjustTextareaHeight(textarea) {
-//     textarea.style.height = "auto";
-//     textarea.style.height = (textarea.scrollHeight) + "px";
-// }
-
-// ** Fungsi untuk memuat catatan dari file **
-function loadNotes() {
-    if (fs.existsSync(notesFilePath)) {
-        const data = fs.readFileSync(notesFilePath, 'utf-8');
-        return JSON.parse(data);
-    }
-    return [];
+async function loadNotes() {
+    return await window.notesAPI.loadNotes();
 }
 
-// ** Fungsi untuk menyimpan catatan ke file **
-function saveNotes(notes) {
-    fs.writeFileSync(notesFilePath, JSON.stringify(notes, null, 2));
+async function saveNotes(notes) {
+    await window.notesAPI.saveNotes(notes);
 }
+
 
 // ** Fungsi untuk menampilkan catatan **
-function renderNotes() {
+async function renderNotes() {
     const notesList = document.getElementById('notes-list');
     notesList.innerHTML = '';
-    const notes = loadNotes();
+    const notes = await loadNotes();
 
     notes.forEach((note) => {
         const noteElement = document.createElement('div');
@@ -46,7 +29,7 @@ function renderNotes() {
 }
 
 // ** Fungsi untuk mencari catatan **
-function searchNotes() {
+async function searchNotes() {
     const query = document.getElementById("search-note").value.toLowerCase();
     const notesList = document.getElementById("notes-list");
     const clearBtn = document.getElementById("clear-search");
@@ -59,7 +42,7 @@ function searchNotes() {
     }
 
     notesList.innerHTML = '';
-    const notes = loadNotes();
+    const notes = await loadNotes();
     const filteredNotes = notes.filter(note =>
         note.title.toLowerCase().includes(query) || note.content.toLowerCase().includes(query)
     );
@@ -87,7 +70,7 @@ function clearSearch() {
 }
 
 // ** Fungsi untuk menambahkan atau mengedit catatan **
-document.getElementById('add-note').addEventListener('click', () => {
+document.getElementById('add-note').addEventListener('click',async () => {
     let title = document.getElementById('note-title').value.trim();
     const content = document.getElementById('note-content').value.trim();
     const editId = document.getElementById('add-note').getAttribute('data-edit-id');
@@ -97,17 +80,18 @@ document.getElementById('add-note').addEventListener('click', () => {
     }
 
     if (content) {
-        const notes = loadNotes();
+        const notes = await loadNotes();
+
 
         if (editId) {
             // Konfirmasi sebelum menyimpan perubahan
             if (title !== initialTitle.trim() || content !== initialContent.trim()) {
-                showConfirmPopup("Yakin bade nyimpen catetan nu tos dirobih?", () => {
+                showConfirmPopup("Yakin bade nyimpen catetan nu tos dirobih?", async () => {
                     const noteIndex = notes.findIndex(note => note.id === editId);
                     if (noteIndex !== -1) {
                         notes[noteIndex].title = title;
                         notes[noteIndex].content = content;
-                        saveNotes(notes);
+                        await saveNotes(notes);
                         renderNotes();
                         resetForm();
                     }
@@ -124,7 +108,7 @@ document.getElementById('add-note').addEventListener('click', () => {
                 content
             };
             notes.push(newNote);
-            saveNotes(notes);
+            await saveNotes(notes);
             renderNotes();
             resetForm();
         }
@@ -141,8 +125,8 @@ function resetForm() {
 }
 
 // ** Fungsi untuk mengedit catatan **
-window.editNote = (id) => {
-    const notes = loadNotes();
+window.editNote = async (id)  => {
+    const notes = await loadNotes();
     const noteToEdit = notes.find(note => note.id === id);
     
     if (noteToEdit) {
@@ -182,11 +166,11 @@ window.cancelEdit = () => {
 };
 
 // ** Fungsi untuk menghapus catatan **
-window.deleteNote = (id) => {
-    showConfirmPopup("Yakin bade hapus catetan ieu?", () => {
-        const notes = loadNotes();
+window.deleteNote =  (id) => {
+    showConfirmPopup("Yakin bade hapus catetan ieu?", async () => {
+        const notes = await loadNotes();
         const updatedNotes = notes.filter(note => note.id !== id);
-        saveNotes(updatedNotes);
+        await saveNotes(updatedNotes);
         renderNotes();
     });
 };
