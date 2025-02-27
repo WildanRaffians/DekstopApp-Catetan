@@ -15,8 +15,8 @@
                 <textarea id="note-content" placeholder="Eusi Catetan" oninput="adjustTextareaHeight(this)"></textarea>
                 <div class="actions">
                     
-                    <button id="add-note">Tambih Catatan</button>
-                    <button id="cancel-edit" style="display: none; background-color: orange;" onclick="cancelEdit()">Batal</button> <!-- Tombol batal -->
+                    <button class="addButton" id="add-note">Tambih Catatan</button>
+                    <button class="cancelButton" id="cancel-edit"  onclick="cancelEdit()">Batal</button> <!-- Tombol batal -->
                 </div>
             </div>
         </div>
@@ -28,6 +28,17 @@
                 <button id="clear-search" onclick="clearSearch()">✖</button>
             </div>            
             <div class="notes-container" id="notes-list"></div>
+        </div>
+    </div>
+
+    <!-- From Uiverse.io by 00Kubi --> 
+    <div id="confirmPopup" class="popup">
+        <div class="card">
+            <p id="popupMessage" class="popupHeading"></p>
+            <div class="buttonContainer">
+                <button class="acceptButton" id="confirmAction">Nya</button>
+                <button class="declineButton" id="cancelAction">Kela</button>
+            </div>
         </div>
     </div>
 

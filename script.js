@@ -4,11 +4,11 @@ const path = require('path');
 
 const notesFilePath = path.join(__dirname, 'notes.json');
 
-// ** Fungsi untuk menyesuaikan tinggi textarea **
-function adjustTextareaHeight(textarea) {
-    textarea.style.height = "auto";
-    textarea.style.height = (textarea.scrollHeight) + "px";
-}
+// // ** Fungsi untuk menyesuaikan tinggi textarea **
+// function adjustTextareaHeight(textarea) {
+//     textarea.style.height = "auto";
+//     textarea.style.height = (textarea.scrollHeight) + "px";
+// }
 
 // ** Fungsi untuk memuat catatan dari file **
 function loadNotes() {
@@ -101,15 +101,16 @@ document.getElementById('add-note').addEventListener('click', () => {
 
         if (editId) {
             // Konfirmasi sebelum menyimpan perubahan
-            if (confirm("Yakin bade nyimpen catetan nu tos dirobih ieu?")) {
+            showConfirmPopup("Yakin ingin menyimpan catatan yang sudah diubah?", () => {
                 const noteIndex = notes.findIndex(note => note.id === editId);
                 if (noteIndex !== -1) {
                     notes[noteIndex].title = title;
                     notes[noteIndex].content = content;
+                    saveNotes(notes);
+                    renderNotes();
+                    resetForm();
                 }
-            } else {
-                return; // Jika tidak setuju, batalkan penyimpanan
-            }
+            });
         } else {
             // Tambah catatan baru
             const newNote = {
@@ -118,19 +119,21 @@ document.getElementById('add-note').addEventListener('click', () => {
                 content
             };
             notes.push(newNote);
+            saveNotes(notes);
+            renderNotes();
+            resetForm();
         }
 
-        saveNotes(notes);
-        renderNotes();
-
-        // Reset form setelah menyimpan
-        document.getElementById('note-title').value = '';
-        document.getElementById('note-content').value = '';
-        document.getElementById('add-note').removeAttribute('data-edit-id');
-        document.getElementById('add-note').textContent = "Tambih Catatan";
-        document.getElementById('cancel-edit').style.display = "none"; // Sembunyikan tombol batal
     }
 });
+// Fungsi untuk mereset form setelah menyimpan
+function resetForm() {
+    document.getElementById('note-title').value = '';
+    document.getElementById('note-content').value = '';
+    document.getElementById('add-note').removeAttribute('data-edit-id');
+    document.getElementById('add-note').textContent = "Tambih Catatan";
+    document.getElementById('cancel-edit').style.display = "none"; // Sembunyikan tombol batal
+}
 
 // ** Fungsi untuk mengedit catatan **
 window.editNote = (id) => {
@@ -154,31 +157,26 @@ window.cancelEdit = () => {
     const currentContent = document.getElementById('note-content').value;
 
     if (currentTitle.trim() !== "" || currentContent.trim() !== "") {
-        const confirmCancel = confirm("Yakin bade batalkeun?");
+        const confirmCancel = showConfirmPopup("Yakin bade batalkeun?", ()=>{
+            // Reset input form
+            resetForm();
+        });
         if (!confirmCancel) {
             return;
         }
     }
 
-    // Reset input form
-    document.getElementById('note-title').value = '';
-    document.getElementById('note-content').value = '';
-    document.getElementById('add-note').removeAttribute('data-edit-id');
-    document.getElementById('add-note').textContent = "Tambih Catatan";
-    document.getElementById('cancel-edit').style.display = "none"; // Sembunyikan tombol batal
-    // Fokus kembali ke judul setelah reset
     
 };
 
 // ** Fungsi untuk menghapus catatan **
 window.deleteNote = (id) => {
-    if (confirm("Yakin bade hapus catetan ieu?")) {
-
+    showConfirmPopup("Yakin bade hapus catetan ieu?", () => {
         const notes = loadNotes();
         const updatedNotes = notes.filter(note => note.id !== id);
         saveNotes(updatedNotes);
         renderNotes();
-    }
+    });
 };
 
 // ** Load catatan saat aplikasi dibuka **
@@ -186,3 +184,23 @@ document.addEventListener("DOMContentLoaded", () => {
     renderNotes();
     adjustTextareaHeight(document.getElementById("note-content"));
 });
+
+
+function showConfirmPopup(message, onConfirm) {
+    document.getElementById("popupMessage").innerText = message;
+    document.getElementById("confirmPopup").classList.add("show");
+
+    // Hapus event listener lama agar tidak bertumpuk
+    const confirmButton = document.getElementById("confirmAction");
+    confirmButton.replaceWith(confirmButton.cloneNode(true)); // Reset tombol
+    document.getElementById("confirmAction").addEventListener("click", function() {
+        onConfirm(); // Panggil fungsi yang diberikan
+        closeConfirmPopup();
+    });
+
+    document.getElementById("cancelAction").addEventListener("click", closeConfirmPopup);
+}
+
+function closeConfirmPopup() {
+    document.getElementById("confirmPopup").classList.remove("show");
+}
