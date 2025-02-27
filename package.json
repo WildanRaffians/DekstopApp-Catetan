@@ -27,6 +27,7 @@
     "asar": true, 
     "compression": "maximum", 
     "npmRebuild": false, 
-    "removePackageScripts": true 
+    "removePackageScripts": true,
+    "icon": "assets/icon"
   }
 }

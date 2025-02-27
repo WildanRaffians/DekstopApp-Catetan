@@ -5,12 +5,13 @@ let mainWindow;
 
 function createWindow() {
     mainWindow = new BrowserWindow({
-        width: 1000,
+        width: 1180,
         height: 800,
         webPreferences: {
             nodeIntegration: true,
             contextIsolation: false,
-        }
+        },
+        icon: path.join(__dirname, 'assets/icon.png')
     });
 
     mainWindow.loadFile('index.html');

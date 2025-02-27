@@ -101,16 +101,21 @@ document.getElementById('add-note').addEventListener('click', () => {
 
         if (editId) {
             // Konfirmasi sebelum menyimpan perubahan
-            showConfirmPopup("Yakin ingin menyimpan catatan yang sudah diubah?", () => {
-                const noteIndex = notes.findIndex(note => note.id === editId);
-                if (noteIndex !== -1) {
-                    notes[noteIndex].title = title;
-                    notes[noteIndex].content = content;
-                    saveNotes(notes);
-                    renderNotes();
-                    resetForm();
-                }
-            });
+            if (title !== initialTitle.trim() || content !== initialContent.trim()) {
+                showConfirmPopup("Yakin bade nyimpen catetan nu tos dirobih?", () => {
+                    const noteIndex = notes.findIndex(note => note.id === editId);
+                    if (noteIndex !== -1) {
+                        notes[noteIndex].title = title;
+                        notes[noteIndex].content = content;
+                        saveNotes(notes);
+                        renderNotes();
+                        resetForm();
+                    }
+                });
+            } else{
+                renderNotes();
+                resetForm();
+            }
         } else {
             // Tambah catatan baru
             const newNote = {
@@ -143,6 +148,7 @@ window.editNote = (id) => {
     if (noteToEdit) {
         document.getElementById('note-title').value = noteToEdit.title;
         document.getElementById('note-content').value = noteToEdit.content;
+        saveInitialValues();
 
         // Simpan ID catatan yang sedang diedit
         document.getElementById('add-note').setAttribute('data-edit-id', id);
@@ -150,23 +156,29 @@ window.editNote = (id) => {
         document.getElementById('cancel-edit').style.display = "inline-block"; // Tampilkan tombol batal
     }
 };
-
-// Fungsi untuk membatalkan edit dengan konfirmasi jika ada perubahan
+// Simpan nilai awal
+function saveInitialValues() {
+    initialTitle = document.getElementById('note-title').value;
+    initialContent = document.getElementById('note-content').value;
+}
+// Fungsi cancelEdit
 window.cancelEdit = () => {
     const currentTitle = document.getElementById('note-title').value;
     const currentContent = document.getElementById('note-content').value;
 
-    if (currentTitle.trim() !== "" || currentContent.trim() !== "") {
-        const confirmCancel = showConfirmPopup("Yakin bade batalkeun?", ()=>{
-            // Reset input form
+    // Bandingkan nilai saat ini dengan nilai awal
+    if (currentTitle.trim() !== initialTitle.trim() || currentContent.trim() !== initialContent.trim()) {
+        const confirmCancel = showConfirmPopup("Yakin bade batalkeun?", () => {
             resetForm();
         });
+
         if (!confirmCancel) {
             return;
         }
+    } else {
+        // Jika tidak ada perubahan, langsung reset form
+        resetForm();
     }
-
-    
 };
 
 // ** Fungsi untuk menghapus catatan **
@@ -201,6 +213,41 @@ function showConfirmPopup(message, onConfirm) {
     document.getElementById("cancelAction").addEventListener("click", closeConfirmPopup);
 }
 
+
 function closeConfirmPopup() {
     document.getElementById("confirmPopup").classList.remove("show");
 }
+
+document.getElementById('note-content').addEventListener('keydown', function (event) {
+    if (event.key === 'Enter') {
+        event.preventDefault(); // Hindari Enter default
+        
+        const textarea = event.target;
+        const start = textarea.selectionStart;
+        const end = textarea.selectionEnd;
+        const text = textarea.value;
+        
+        // Ambil baris terakhir sebelum Enter
+        const lines = text.substring(0, start).split("\n");
+        const lastLine = lines[lines.length - 1];
+
+        let newText = "\n"; // Default Enter behavior
+
+        // Cek apakah baris sebelumnya adalah angka (1. 2. 3. ...)
+        const numberMatch = lastLine.match(/^(\d+)\.\s/);
+        if (numberMatch) {
+            const nextNumber = parseInt(numberMatch[1], 10) + 1; // Tambah angka berikutnya
+            newText = `\n${nextNumber}. `;
+        }
+
+        // Cek apakah baris sebelumnya adalah bullet (- atau •)
+        const bulletMatch = lastLine.match(/^(\-|\•)\s/);
+        if (bulletMatch) {
+            newText = `\n${bulletMatch[1]} `;
+        }
+
+        // Masukkan teks baru di posisi kursor
+        textarea.value = text.substring(0, start) + newText + text.substring(end);
+        textarea.selectionStart = textarea.selectionEnd = start + newText.length;
+    }
+});
