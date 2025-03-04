@@ -1,3 +1,5 @@
+let isEditing = false; // Status untuk melacak apakah ada catatan yang sedang diubah
+let currentNoteId = null; // ID catatan yang sedang diedit
 async function loadNotes() {
     return await window.notesAPI.loadNotes();
 }
@@ -92,11 +94,17 @@ document.getElementById('add-note').addEventListener('click',async () => {
                         notes[noteIndex].title = title;
                         notes[noteIndex].content = content;
                         await saveNotes(notes);
+                        // Set status editing ke false
+                        isEditing = false;
+                        currentNoteId = null;
                         renderNotes();
                         resetForm();
                     }
                 });
             } else{
+                // Set status editing ke false
+                isEditing = false;
+                currentNoteId = null;
                 renderNotes();
                 resetForm();
             }
@@ -109,6 +117,9 @@ document.getElementById('add-note').addEventListener('click',async () => {
             };
             notes.push(newNote);
             await saveNotes(notes);
+            // Set status editing ke false
+            isEditing = false;
+            currentNoteId = null;
             renderNotes();
             resetForm();
         }
@@ -126,6 +137,10 @@ function resetForm() {
 
 // ** Fungsi untuk mengedit catatan **
 window.editNote = async (id)  => {
+    if (isEditing) {
+        showAlertPopup("Aya catetan nu keur ditingal, batalkeun atawa simpen heula.");
+        return;
+    }
     const notes = await loadNotes();
     const noteToEdit = notes.find(note => note.id === id);
     
@@ -138,6 +153,9 @@ window.editNote = async (id)  => {
         document.getElementById('add-note').setAttribute('data-edit-id', id);
         document.getElementById('add-note').textContent = "Robih Catatan";
         document.getElementById('cancel-edit').style.display = "inline-block"; // Tampilkan tombol batal
+
+        isEditing = true;
+        currentNoteId = id;
     }
 };
 // Simpan nilai awal
@@ -154,6 +172,8 @@ window.cancelEdit = () => {
     if (currentTitle.trim() !== initialTitle.trim() || currentContent.trim() !== initialContent.trim()) {
         const confirmCancel = showConfirmPopup("Yakin bade batalkeun?", () => {
             resetForm();
+            isEditing = false; // Set status editing ke false
+            currentNoteId = null; // Reset ID catatan yang sedang diedit
         });
 
         if (!confirmCancel) {
@@ -162,6 +182,8 @@ window.cancelEdit = () => {
     } else {
         // Jika tidak ada perubahan, langsung reset form
         resetForm();
+        isEditing = false; // Set status editing ke false
+        currentNoteId = null; // Reset ID catatan yang sedang diedit
     }
 };
 
@@ -196,10 +218,23 @@ function showConfirmPopup(message, onConfirm) {
 
     document.getElementById("cancelAction").addEventListener("click", closeConfirmPopup);
 }
-
-
 function closeConfirmPopup() {
     document.getElementById("confirmPopup").classList.remove("show");
+}
+
+function showAlertPopup(message) {
+    document.getElementById("popupAlert").innerText = message;
+    document.getElementById("alertPopup").classList.add("show");
+
+    // Hapus event listener lama agar tidak bertumpuk
+    const alertButton = document.getElementById("alertAction");
+    alertButton.replaceWith(alertButton.cloneNode(true)); // Reset tombol
+    document.getElementById("alertAction").addEventListener("click", closeAlertPopup);
+}
+
+
+function closeAlertPopup() {
+    document.getElementById("alertPopup").classList.remove("show");
 }
 
 document.getElementById('note-content').addEventListener('keydown', function (event) {

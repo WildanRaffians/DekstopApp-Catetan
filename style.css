@@ -336,7 +336,7 @@ body {
     box-shadow: 0 4px 6px -1px #bebdbd, 0 2px 4px -1px #bebdbd;
     transition: all .6s ease;
 }
-  
+
 .declineButton {
     width: 80px;
     height: 30px;
@@ -344,6 +344,20 @@ body {
     transition-duration: .2s;
     color: rgb(46, 46, 46);
     border: none;
+    cursor: pointer;
+    font-weight: 600;
+    border-radius: 20px;
+    box-shadow: 0 4px 6px -1px #bebdbd, 0 2px 4px -1px #bebdbd;
+    transition: all .6s ease;
+}
+
+.alertButton {
+    width: 80px;
+    height: 30px;
+    background-color: rgb(46, 46, 46);
+    transition-duration: .2s;
+    border: none;
+    color: rgb(241, 241, 241);
     cursor: pointer;
     font-weight: 600;
     border-radius: 20px;
