@@ -172,7 +172,7 @@ body {
 
 .search:focus {
     background-color: white;
-    transform: scale(1.05);
+    transform: scale(1.01);
     box-shadow: 13px 13px 100px #4e4e4e, -13px -13px 100px #ffffff;
 }
 
@@ -380,4 +380,67 @@ body {
 .popup.show {
     visibility: visible;
     opacity: 1;
+}
+
+
+/* From Uiverse.io by elijahgummer */ 
+.tooltip-container {
+    --background-tooltip-container: #ffffff00;
+    position: relative;
+    background: var(--background-tooltip-container);
+    cursor: pointer;
+    transition: all 0.2s;
+    width: 16px;
+    height: 16px;
+    border-radius: 6px;
+    font-size: 17px;
+  }
+  
+  .tooltip {
+    --background-tooltip: #6e7681; /* Default background color for tooltip */
+    position: absolute;
+    top: -80px; /* Adjusted top position */
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 0.5em;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s;
+    background: var(--background-tooltip);
+    color: white; /* Text color */
+    border-radius: 5px;
+    width: 210px;
+    height: 62px;
+    font-size: 13px;
+    text-align: center;
+  }
+  
+  .tooltip::before {
+    position: absolute;
+    content: "";
+    height: 0.6em;
+    width: 0.6em;
+    bottom: -0.2em;
+    left: 50%;
+    transform: translate(-50%) rotate(45deg);
+    background: var(
+      --background-tooltip
+    ); /* Use the same background color as the tooltip */
+  }
+  
+  .tooltip-container:hover .tooltip {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+  
+  .row.justify-between {
+    display: flex;
+    justify-content: space-between; /* Membuat jarak antara judul dan tooltip */
+    align-items: center; /* Membuat elemen sejajar vertikal */
+    width: 100%; /* Pastikan container mengambil lebar penuh */
+}
+
+.row.justify-between h3 {
+    overflow: auto;
 }

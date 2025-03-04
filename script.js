@@ -19,7 +19,15 @@ async function renderNotes() {
         const noteElement = document.createElement('div');
         noteElement.className = 'note-item';
         noteElement.innerHTML = `
-            <h3>${note.title}</h3>
+            <div class="row justify-between">
+                <h3>${note.title}</h3>
+                <div style="width: 20px;"></div>
+                <div class="tooltip-container">
+                    <span class="tooltip">Ditambih :${formatDate(note.createdAt)}<br>
+                    Terakhir Dirobih : ${formatDate(note.updatedAt)}</span>
+                    <span class="texttip">i</span>
+                </div>
+            </div>
             <div class="note-content">${note.content.replace(/\n/g, '<br>')}</div>
             <div class="actions">
                 <button class="edit" onclick="editNote('${note.id}')">Tingal</button>
@@ -83,6 +91,7 @@ document.getElementById('add-note').addEventListener('click',async () => {
 
     if (content) {
         const notes = await loadNotes();
+        const now = new Date().toISOString(); // Tanggal dan waktu saat ini
 
 
         if (editId) {
@@ -93,6 +102,7 @@ document.getElementById('add-note').addEventListener('click',async () => {
                     if (noteIndex !== -1) {
                         notes[noteIndex].title = title;
                         notes[noteIndex].content = content;
+                        notes[noteIndex].updatedAt = now;
                         await saveNotes(notes);
                         // Set status editing ke false
                         isEditing = false;
@@ -113,7 +123,9 @@ document.getElementById('add-note').addEventListener('click',async () => {
             const newNote = {
                 id: Date.now().toString(),
                 title,
-                content
+                content,
+                createdAt: now, // Tanggal dibuat
+                updatedAt: now // Tanggal terakhir diedit
             };
             notes.push(newNote);
             await saveNotes(notes);
@@ -270,3 +282,14 @@ document.getElementById('note-content').addEventListener('keydown', function (ev
         textarea.selectionStart = textarea.selectionEnd = start + newText.length;
     }
 });
+
+
+function formatDate(dateString) {
+    const date = new Date(dateString);
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = date.getFullYear();
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    return `${day}-${month}-${year} ${hours}:${minutes}`;
+}
