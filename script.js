@@ -11,6 +11,9 @@ async function saveNotes(notes) {
 
 // ** Fungsi untuk menampilkan catatan **
 async function renderNotes() {
+    // Jalankan fungsi saat halaman dimuat dan saat ukuran layar berubah
+    window.addEventListener('load', checkTextOverflow);
+    window.addEventListener('resize', checkTextOverflow);
     const notesList = document.getElementById('notes-list');
     notesList.innerHTML = '';
     const notes = await loadNotes();
@@ -21,7 +24,7 @@ async function renderNotes() {
         noteElement.innerHTML = `
             <div class="row justify-between">
                 <h3>${note.title}</h3>
-                <div style="width: 20px;"></div>
+                <div style="width: 10px;"></div>
                 <div style="display: flex; justify-content:end; gap: 10px; align-items: center">
                     <button class="copy" onclick="copyToClipboard('${note.id}')">
                         <span data-text-end="Copied!" data-text-initial="Copy to clipboard" class="tooltip_copy"></span>
@@ -318,3 +321,17 @@ function copyToClipboard(noteId) {
        
     }).catch(err => console.error('Failed to copy:', err));
 }
+
+function checkTextOverflow() {
+    const h3Elements = document.querySelectorAll('.row.justify-between h3');
+
+    h3Elements.forEach(h3 => {
+        // Periksa apakah teks melebihi lebar container
+        if (h3.scrollWidth > h3.clientWidth) {
+            h3.classList.add('scrolling-text'); // Tambahkan class untuk animasi
+        } else {
+            h3.classList.remove('scrolling-text'); // Hapus class jika tidak overflow
+        }
+    });
+}
+

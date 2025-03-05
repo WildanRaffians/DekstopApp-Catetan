@@ -145,6 +145,7 @@ body {
     padding: 20px;
     margin: 20px;
     overflow-y: auto;
+    overflow-x: hidden;
     display: flex;
 }
 
@@ -446,7 +447,7 @@ body {
 }
 
 .row.justify-between h3 {
-    overflow: auto;
+    overflow:hidden;
     white-space: nowrap;
 }
 
