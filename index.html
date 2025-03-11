@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Catetan</title>
     <link rel="stylesheet" href="style.css">
+    <!-- Include Quill stylesheet -->
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
 </head>
 <body>
     <div class="container">
@@ -12,10 +14,11 @@
             <div class="container-field">
                 <h1>Catetan</h1>
                 <input type="text" id="note-title" placeholder="Jejer Catetan">
-                <textarea id="note-content" placeholder="Eusi Catetan" oninput="adjustTextareaHeight(this)"></textarea>
+                <!-- <textarea id="note-content" placeholder="Eusi Catetan" oninput="adjustTextareaHeight(this)"></textarea> -->
+                <div id="note-content" class="content-textarea"></div>
                 <div class="actions">
                     
-                    <button class="addButton" id="add-note">Tambih Catatan</button>
+                    <button class="addButton" id="add-note">Simpen</button>
                     <button class="cancelButton" id="cancel-edit"  onclick="cancelEdit()">Batal</button> <!-- Tombol batal -->
                 </div>
             </div>
@@ -51,6 +54,8 @@
         </div>
     </div>
 
+    <!-- Include Quill library -->
+    <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
     <script src="script.js"></script>
 </body>
 </html>

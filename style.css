@@ -19,9 +19,9 @@ body {
     flex-direction: column;
     font-family: 'Courier New', Courier, monospace;
     background-color: white;
-    margin-top: 20px;
-    margin-bottom: 20px;
-    margin-left: 20px;
+    margin-top: 10px;
+    margin-bottom:10px;
+    margin-left:10px;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     align-items: center;
@@ -38,7 +38,7 @@ body {
 .container-field input {
     width: 85%;
     margin-bottom: 10px;
-    min-height: 40px;
+    min-height: 25px;
     padding: 10px;
     font-family: 'Courier New', Courier, monospace;
     outline: none;
@@ -56,10 +56,11 @@ body {
               inset -5px -5px 17px #ffffff;
 }
 
-.container-field textarea{
-    min-height: 400px; /* Tinggi minimum */
-    width: 85%;
+.container-field .content-textarea{
+    min-height: 390px; /* Tinggi minimum */
+    width: 90%;
     padding: 10px;
+    margin-top: 10px;
     font-family: 'Courier New', Courier, monospace;
     outline: none;
     background: white;
@@ -72,7 +73,7 @@ body {
     margin-bottom: 20px;
 }
 
-.container-field textarea:focus {
+.container-field .content-textarea:focus {
     background: #e8e8e8;
     box-shadow: inset 5px 5px 17px #c8c8c8,
               inset -5px -5px 17px #ffffff;
@@ -114,7 +115,6 @@ body {
     background-color: rgb(205, 133, 0);
     color: #fff;
     cursor: pointer;
-    margin-right: 10px;
     position: relative;
     width: 150px;
     font-weight: bold;
@@ -143,7 +143,7 @@ body {
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     padding: 20px;
-    margin: 20px;
+    margin: 10px;
     overflow-y: auto;
     overflow-x: hidden;
     display: flex;
@@ -203,8 +203,8 @@ body {
     padding-inline: 10px;
     padding-right: 20px;
     padding-bottom: 20px;
-    min-width: 150px;
-    max-width: 250px;
+    min-width: 180px;
+    max-width: 210px;
     font-family: 'Courier New', Courier, monospace;
     outline: none;
     background: white;
@@ -216,10 +216,12 @@ body {
     height: 220px;
 }
 
-.note-item .note-content {
+.note-content {
     height: 100px;
     overflow-y: auto;
     padding-right: 5px; /* Agar tidak tertutup scrollbar */
+    word-wrap: break-word;
+    overflow-wrap: break-word;
     white-space: pre-wrap;
     font-size: 14px;
     background-color: #fff;
@@ -573,3 +575,9 @@ body {
   .copy:hover svg {
     color: var(--button-hover-text-color);
   }
+
+  .ql-toolbar {
+    background-color: #f4f4f4; /* Ubah warna latar toolbar */
+    border-radius: 10px; /* Tambahkan sudut melengkung */
+    width: 90%;
+}
