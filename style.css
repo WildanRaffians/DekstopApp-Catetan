@@ -19,9 +19,7 @@ body {
     flex-direction: column;
     font-family: 'Courier New', Courier, monospace;
     background-color: white;
-    margin-top: 10px;
-    margin-bottom:10px;
-    margin-left:10px;
+    margin: 10px 10px 5px 10px;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     align-items: center;
@@ -35,7 +33,7 @@ body {
     color: #000;
 }
 
-.container-field input {
+.input-jejer {
     width: 85%;
     margin-bottom: 10px;
     min-height: 25px;
@@ -50,14 +48,14 @@ body {
     transition: all .5s;
 }
 
-.container-field input:focus {
+.input-jejer:focus {
     background: #e8e8e8;
     box-shadow: inset 5px 5px 17px #c8c8c8,
               inset -5px -5px 17px #ffffff;
 }
 
-.container-field .content-textarea{
-    min-height: 390px; /* Tinggi minimum */
+.content-textarea{
+    min-height: 420px; /* Tinggi minimum */
     width: 90%;
     padding: 10px;
     margin-top: 10px;
@@ -66,14 +64,14 @@ body {
     background: white;
     box-shadow: 5px 5px 17px #c8c8c8,
                -5px -5px 17px #ffffff;
-    border: none;
+    border: none !important;
     border-radius: 10px;
     transition: all .5s;
     resize: none;
     margin-bottom: 20px;
 }
 
-.container-field .content-textarea:focus {
+.content-textarea:hover {
     background: #e8e8e8;
     box-shadow: inset 5px 5px 17px #c8c8c8,
               inset -5px -5px 17px #ffffff;
@@ -86,6 +84,7 @@ body {
     background-color: #007bff;
     color: #fff;
     cursor: pointer;
+    margin-top: 10px;
     margin-right: 10px;
     position: relative;
     width: 150px;
@@ -143,7 +142,7 @@ body {
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     padding: 20px;
-    margin: 10px;
+    margin: 10px 10px 10px 5px;
     overflow-y: auto;
     overflow-x: hidden;
     display: flex;
@@ -580,4 +579,44 @@ body {
     background-color: #f4f4f4; /* Ubah warna latar toolbar */
     border-radius: 10px; /* Tambahkan sudut melengkung */
     width: 90%;
+}
+
+/* Media Query untuk lebar layar kurang dari 768px */
+@media (max-width: 768px) {
+    .main-content {
+        display: none; /* Sembunyikan main-content */
+    }
+
+    .sidebar {
+        width: 100%; /* Sidebar mengambil lebar penuh */
+    }
+
+    /* Tombol untuk menampilkan main-content */
+    .toggle-main-content {
+        display: block; /* Tampilkan tombol */
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        z-index: 1000;
+    }
+}
+
+/* Media Query untuk lebar layar lebih dari 768px */
+@media (min-width: 769px) {
+    .toggle-main-content {
+        display: none; /* Sembunyikan tombol */
+    }
+    .main-content {
+        display: flex; /* Sembunyikan main-content */
+    }
+
+    .sidebar {
+        width: 45%; /* Sidebar mengambil lebar penuh */
+    }
 }

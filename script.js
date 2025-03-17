@@ -16,9 +16,7 @@ document.addEventListener("DOMContentLoaded", function() {
         modules: {
             toolbar: [
                 ['bold', 'italic', 'underline', 'strike'], // Format teks
-                ['blockquote', 'code-block'],
                 [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-                [{ 'script': 'sub' }, { 'script': 'super' }],
                 [{ 'size': ['small', false, 'large', 'huge'] }],
                 [{ 'color': [] }, { 'background': [] }],
                 [{ 'align': [] }],
@@ -154,9 +152,9 @@ document.getElementById('add-note').addEventListener('click',async () => {
     if (!title) {
         title = "Catet!";
     }
-    console.log(content);
+    // console.log(content);
 
-    if (content != '') {
+    if (content != '<p><br></p>') {
         const notes = await loadNotes();
         const now = new Date().toISOString(); // Tanggal dan waktu saat ini
 
@@ -381,3 +379,19 @@ function copyToClipboard(noteId) {
 //         }
 //     });
 // }
+
+
+// Responsive
+function toggleMainContent() {
+    const mainContent = document.querySelector('.main-content');
+    const sidebar = document.querySelector('.sidebar');
+    if (mainContent.style.display === 'none' || mainContent.style.display === '') {
+        mainContent.style.display = 'flex'; // Tampilkan main-content
+        sidebar.style.display = 'none'; // Tampilkan main-content
+        sidebar.style.width = '100%'; // Tampilkan main-content
+    } else {
+        mainContent.style.display = 'none'; // Sembunyikan main-content
+        sidebar.style.display = 'flex'; // Tampilkan sidebar
+        sidebar.style.width = '100%'; // Tampilkan main-content
+    }
+}
