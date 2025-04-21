@@ -19,7 +19,6 @@ document.addEventListener("DOMContentLoaded", function() {
                 [{ 'list': 'ordered' }, { 'list': 'bullet' }],
                 [{ 'size': ['small', false, 'large', 'huge'] }],
                 [{ 'color': [] }, { 'background': [] }],
-                [{ 'align': [] }],
                 ['clean']
             ]
         }
@@ -36,11 +35,14 @@ async function renderNotes() {
     notesList.innerHTML = '';
     const notes = await loadNotes();
 
-    // Urutkan berdasarkan lastViewedAt secara default
+    // Urutkan terlebih dahulu berdasarkan isPinned, baru berdasarkan lastViewedAt
     notes.sort((a, b) => {
-        const dateA = new Date(a.lastViewedAt || a.updatedAt || 0);
-        const dateB = new Date(b.lastViewedAt || b.updatedAt || 0);
-        return dateB - dateA; // Descending: paling baru ditingal di atas
+        if (a.isPinned === b.isPinned) {
+            const dateA = new Date(a.lastViewedAt || a.updatedAt || 0);
+            const dateB = new Date(b.lastViewedAt || b.updatedAt || 0);
+            return dateB - dateA; // Descending: yang terakhir dilihat lebih atas
+        }
+        return b.isPinned - a.isPinned; // Pinned di atas
     });
 
     notes.forEach((note) => {
@@ -51,6 +53,14 @@ async function renderNotes() {
                 <h3>${note.title}</h3>
                 <div style="width: 10px;"></div>
                 <div style="display: flex; justify-content:end; gap: 10px; align-items: center">
+                     <label class="pincontainer">
+                        <input type="checkbox" ${note.isPinned ? 'checked' : ''} onchange="togglePinNote('${note.id}')"/>
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 75 100" class="pin">
+                            <line stroke-width="12" stroke="black" y2="100" x2="37" y1="64" x1="37"></line>
+                            <path stroke-width="10" stroke="black" d="M16.5 36V4.5H58.5V36V53.75V54.9752L59.1862 55.9903L66.9674 67.5H8.03256L15.8138 55.9903L16.5 54.9752V53.75V36Z"></path>
+                        </svg>
+                        <span class="tooltip-pin">${note.isPinned ? 'Unpin' : 'Pin'}</span>
+                    </label>
                     <button class="copy" onclick="copyToClipboard('${note.id}')">
                         <span data-text-end="Copied!" data-text-initial="Copy to clipboard" class="tooltip_copy"></span>
                         <span>
@@ -175,6 +185,7 @@ document.getElementById('add-note').addEventListener('click',async () => {
                         notes[noteIndex].title = title;
                         notes[noteIndex].content = content;
                         notes[noteIndex].updatedAt = now;
+                        notes[noteIndex].isPinned = notes[noteIndex].isPinned;
                         await saveNotes(notes);
                         // Set status editing ke false
                         isEditing = false;
@@ -198,7 +209,8 @@ document.getElementById('add-note').addEventListener('click',async () => {
                 content,
                 createdAt: now, // Tanggal dibuat
                 updatedAt: now, // Tanggal terakhir diedit
-                lastViewedAt: now
+                lastViewedAt: now,
+                isPinned: false // Properti baru untuk pin
             };
             notes.push(newNote);
             await saveNotes(notes);
@@ -409,5 +421,16 @@ function toggleMainContent() {
         mainContent.style.display = 'none'; // Sembunyikan main-content
         sidebar.style.display = 'flex'; // Tampilkan sidebar
         sidebar.style.width = '100%'; // Tampilkan main-content
+    }
+}
+
+async function togglePinNote(id) {
+    const notes = await loadNotes();
+    const noteIndex = notes.findIndex(note => note.id === id);
+    
+    if (noteIndex !== -1) {
+        notes[noteIndex].isPinned = !notes[noteIndex].isPinned; // Toggle status pin
+        await saveNotes(notes);
+        renderNotes(); // Render ulang setelah status pin diubah
     }
 }

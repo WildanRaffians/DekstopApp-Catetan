@@ -459,10 +459,10 @@ body {
 .copy {
     /* button */
     --button-bg: #35343400;
-    --button-hover-bg: #464646;
+    --button-hover-bg: #828282;
     --button-text-color: #353434;
     --button-hover-text-color: #ffffff;
-    --button-border-radius: 10px;
+    --button-border-radius: 8px;
     --button-diameter: 30px;
     --button-outline-width: 1px;
     --button-outline-color: rgb(141, 141, 141);
@@ -620,4 +620,78 @@ body {
     .sidebar {
         width: 45%; /* Sidebar mengambil lebar penuh */
     }
+}
+
+/* Tombol Pin */
+/* From Uiverse.io by vinodjangid07 */ 
+.pincontainer input {
+    display: none;
+  }
+  .pin {
+    width: 13px;
+    height: auto;
+    transform: rotate(35deg);
+  }
+  .pincontainer {
+    position: relative;
+    width: 35px;
+    height: 35px;
+    background-color: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border-radius: 10px;
+  }
+  .pincontainer input:checked ~ .pin {
+    fill: rgb(205, 133, 0);
+    stroke: white;
+  }
+  .pincontainer input:checked ~ .pin line {
+    stroke: rgb(205, 133, 0);
+  }
+  .pincontainer input:checked ~ .pin path {
+    stroke: rgb(205, 133, 0);
+  }
+  .pincontainer:hover {
+    background-color: rgb(255, 242, 216);
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.041);
+  }
+  .pincontainer:active {
+    transform: scale(0.9);
+  }
+
+  .tooltip-pin {
+    visibility: hidden;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 8px;
+    position: absolute;
+    z-index: 1;
+    top: -35px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 12px;
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.pincontainer:hover .tooltip-pin {
+    visibility: visible;
+    opacity: 1;
+}
+
+.tooltip-pin::after {
+    content: "";
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    transform: translateX(-50%) rotate(45deg);
+    width: 10px;
+    height: 10px;
+    background-color: #333;
+    z-index: -1;
 }
