@@ -114,6 +114,7 @@ body {
     background-color: rgb(205, 133, 0);
     color: #fff;
     cursor: pointer;
+    margin-top: 10px;
     position: relative;
     width: 150px;
     font-weight: bold;

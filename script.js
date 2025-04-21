@@ -36,6 +36,13 @@ async function renderNotes() {
     notesList.innerHTML = '';
     const notes = await loadNotes();
 
+    // Urutkan berdasarkan lastViewedAt secara default
+    notes.sort((a, b) => {
+        const dateA = new Date(a.lastViewedAt || a.updatedAt || 0);
+        const dateB = new Date(b.lastViewedAt || b.updatedAt || 0);
+        return dateB - dateA; // Descending: paling baru ditingal di atas
+    });
+
     notes.forEach((note) => {
         const noteElement = document.createElement('div');
         noteElement.className = 'note-item';
@@ -190,7 +197,8 @@ document.getElementById('add-note').addEventListener('click',async () => {
                 title,
                 content,
                 createdAt: now, // Tanggal dibuat
-                updatedAt: now // Tanggal terakhir diedit
+                updatedAt: now, // Tanggal terakhir diedit
+                lastViewedAt: now
             };
             notes.push(newNote);
             await saveNotes(notes);
@@ -219,10 +227,18 @@ window.editNote = async (id)  => {
         showAlertPopup("Aya catetan nu keur ditingal, batalkeun atawa simpen heula.");
         return;
     }
+    const now = new Date().toISOString(); // Tanggal dan waktu saat ini
     const notes = await loadNotes();
     const noteToEdit = notes.find(note => note.id === id);
+    const noteIndex = notes.findIndex(note => note.id === id);
     
     if (noteToEdit) {
+        if (noteIndex !== -1) {
+            notes[noteIndex].lastViewedAt = now;
+            await saveNotes(notes);
+            await renderNotes(); // 🔥 Tambahkan ini agar langsung render ulang
+        }
+
         document.getElementById('note-title').value = noteToEdit.title;
         quill.root.innerHTML  = noteToEdit.content;
         saveInitialValues();
