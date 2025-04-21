@@ -112,6 +112,16 @@ async function searchNotes() {
         note.title.toLowerCase().includes(query) || note.content.toLowerCase().includes(query)
     );
 
+    // Urutkan terlebih dahulu berdasarkan isPinned, baru berdasarkan lastViewedAt
+    filteredNotes.sort((a, b) => {
+        if (a.isPinned === b.isPinned) {
+            const dateA = new Date(a.lastViewedAt || a.updatedAt || 0);
+            const dateB = new Date(b.lastViewedAt || b.updatedAt || 0);
+            return dateB - dateA; // Descending: yang terakhir dilihat lebih atas
+        }
+        return b.isPinned - a.isPinned; // Pinned di atas
+    });
+
     filteredNotes.forEach((note) => {
         const noteElement = document.createElement('div');
         noteElement.className = 'note-item';
