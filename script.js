@@ -49,15 +49,25 @@ async function renderNotes() {
         const noteElement = document.createElement('div');
         noteElement.className = 'note-item';
         noteElement.innerHTML = `
-            <div class="row justify-between">
-                <h3>${note.title}</h3>
-                <div style="width: 10px;"></div>
-                <div style="display: flex; justify-content:end; gap: 10px; align-items: center">
-                     <label class="pincontainer">
-                        <input type="checkbox" ${note.isPinned ? 'checked' : ''} onchange="togglePinNote('${note.id}')"/>
+            <div class="note-wrapper">
+                <div class="note-main">
+                    <div class="note-title">${note.title}</div>
+                    <div class="note-content" id="note-${note.id}">${note.content.replace(/\n/g, '<br>')}</div>
+                    <div class="actions">
+                        <button class="edit" onclick="editNote('${note.id}')">Tingal</button>
+                        <button class="delete" onclick="deleteNote('${note.id}')">Hapus</button>
+                    </div>
+                </div>
+                <div class="note-toolbar">
+                    <div class="tooltip-container">
+                        <span class="tooltip">Ditambah: ${formatDate(note.createdAt)}<br>Terakhir Dirobah: ${formatDate(note.updatedAt)}</span>
+                        <span style="font-size:20px;">i</span>
+                    </div>
+                    <label class="pincontainer">
+                        <input type="checkbox" ${note.isPinned ? 'checked' : ''} onchange="togglePinNote('${note.id}')" />
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 75 100" class="pin">
-                            <line stroke-width="12" stroke="black" y2="100" x2="37" y1="64" x1="37"></line>
-                            <path stroke-width="10" stroke="black" d="M16.5 36V4.5H58.5V36V53.75V54.9752L59.1862 55.9903L66.9674 67.5H8.03256L15.8138 55.9903L16.5 54.9752V53.75V36Z"></path>
+                        <line stroke-width="12" stroke="black" y2="100" x2="37" y1="64" x1="37"></line>
+                        <path stroke-width="10" stroke="black" d="M16.5 36V4.5H58.5V36V53.75V54.9752L59.1862 55.9903L66.9674 67.5H8.03256L15.8138 55.9903L16.5 54.9752V53.75V36Z"></path>
                         </svg>
                         <span class="tooltip-pin">${note.isPinned ? 'Unpin' : 'Pin'}</span>
                     </label>
@@ -76,17 +86,7 @@ async function renderNotes() {
                             </svg>
                         </span>
                     </button>
-                    <div class="tooltip-container">
-                        <span class="tooltip">Ditambih :${formatDate(note.createdAt)}<br>
-                        Terakhir Dirobih : ${formatDate(note.updatedAt)}</span>
-                        <span style="font-size:20px;">i</span>
-                    </div>
                 </div>
-            </div>
-            <div class="note-content" id="note-${note.id}">${note.content.replace(/\n/g, '<br>')}</div>
-            <div class="actions">
-                <button class="edit" onclick="editNote('${note.id}')">Tingal</button>
-                <button class="delete" onclick="deleteNote('${note.id}')">Hapus</button>
             </div>
         `;
         notesList.appendChild(noteElement);

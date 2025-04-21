@@ -200,11 +200,12 @@ body {
 }
 
 .note-item {
-    padding-inline: 10px;
-    padding-right: 20px;
-    padding-bottom: 20px;
-    min-width: 180px;
-    max-width: 210px;
+    display: flex;
+    /* padding-inline: 10px; */
+    /* padding-right: 20px; */
+    /* padding-bottom: 20px; */
+    /* min-width: 180px; */
+    width: 260px;
     font-family: 'Courier New', Courier, monospace;
     outline: none;
     background: white;
@@ -213,25 +214,64 @@ body {
     border: none;
     border-radius: 10px;
     transition: all .5s;
-    height: 220px;
+    height: 260px;
 }
+.note-wrapper {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
 
-.note-content {
-    height: 100px;
-    overflow-y: auto;
-    padding-right: 5px; /* Agar tidak tertutup scrollbar */
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-    white-space: pre-wrap;
-    font-size: 14px;
-    background-color: #fff;
-    margin-bottom: 25px;
-}
+  .note-main {
+    width: 80%;
+    flex: 1;
+    padding-right: 2px;
+    padding-left: 13px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .note-toolbar {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    background: #f0f0f000;
+    padding: 8px;
+    border-left: 2px solid #a4a4a4;
+    gap: 8px;
+    width: 20px;
+    height: 245px;
+    
+  }
+    .note-title{
+        overflow:hidden;
+        white-space: nowrap;
+        margin-top: 15px;
+        margin-bottom: 8px;
+        font-size: large;
+        font-weight: bold;
+    }
+    .note-content {
+        height: 150px;
+        overflow-y: auto;
+        /* padding-right: 5px;  */
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        white-space: pre-wrap;
+        font-size: 14px;
+        background-color: #fff;
+        margin-bottom: 15px;
+    }
+    .note-content::-webkit-scrollbar {
+        display: none; /* Chrome, Safari, Opera */
+      }
 
 .actions {
     display: flex;
     justify-content:end;
     gap: 16px;
+    margin-right: 10px;
 }
 
 .edit {
@@ -440,18 +480,9 @@ body {
   /* .texttip{
     font-size: 14px;
   } */
-  
-  .row.justify-between {
-    display: flex;
-    justify-content: space-between; /* Membuat jarak antara judul dan tooltip */
-    align-items: center; /* Membuat elemen sejajar vertikal */
-    width: 100%; /* Pastikan container mengambil lebar penuh */
-}
 
-.row.justify-between h3 {
-    overflow:hidden;
-    white-space: nowrap;
-}
+
+
 
 /* From Uiverse.io by Galahhad */ 
 /* tooltip settings 👇 */
@@ -510,7 +541,9 @@ body {
     padding: var(--tooltip-padding-y) var(--tooltip-padding-x);
     border-radius: var(--toolptip-border-radius);
     pointer-events: none;
-    transition: all var(--tooltip-transition-duration) cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    /* transition: all var(--tooltip-transition-duration) cubic-bezier(0.68, -0.55, 0.265, 1.55); */
+    transition: opacity 0.3s ease;
+
   }
   
   .tooltip_copy::before {
@@ -663,7 +696,7 @@ body {
 
   .tooltip-pin {
     visibility: hidden;
-    background-color: #333;
+    background-color: #6e7681;
     color: #fff;
     text-align: center;
     border-radius: 6px;
@@ -692,6 +725,6 @@ body {
     transform: translateX(-50%) rotate(45deg);
     width: 10px;
     height: 10px;
-    background-color: #333;
+    background-color: #6e7681;
     z-index: -1;
 }
