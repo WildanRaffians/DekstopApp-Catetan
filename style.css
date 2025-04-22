@@ -225,8 +225,8 @@ body {
   .note-main {
     width: 80%;
     flex: 1;
-    padding-right: 2px;
-    padding-left: 13px;
+    padding-right: 0px;
+    padding-left: 10px;
     display: flex;
     flex-direction: column;
   }
@@ -238,11 +238,13 @@ body {
     align-items: center;
     background: #f0f0f000;
     padding: 8px;
-    border-left: 2px solid #a4a4a4;
+    border-left: 3px solid #6d6d6d;
+    border-bottom: 3px solid #6d6d6d;
+    border-bottom-left-radius: 10px;
     gap: 8px;
     width: 20px;
-    height: 245px;
-    
+    height: 94px;
+    box-shadow: -15px -15px 15px rgb(255, 255, 255);
   }
     .note-title{
         overflow:hidden;
