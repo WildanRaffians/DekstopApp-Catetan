@@ -232,19 +232,26 @@ body {
   }
 
   .note-toolbar {
+    outline: none;
+    background: white;
+    box-shadow: 5px 5px 17px #c8c8c8,
+               -5px -5px 17px #ffffff;
+    border: none;
+    transition: all .5s;
     display: flex;
     flex-direction: column;
     justify-content: start;
     align-items: center;
     background: #f0f0f000;
     padding: 8px;
-    border-left: 3px solid #6d6d6d;
-    border-bottom: 3px solid #6d6d6d;
+    /* border-left: 3px solid #6d6d6d;
+    border-bottom: 3px solid #6d6d6d; */
     border-bottom-left-radius: 10px;
+    border-top-right-radius: 10px;
     gap: 8px;
     width: 20px;
     height: 94px;
-    box-shadow: -15px -15px 15px rgb(255, 255, 255);
+    /* box-shadow: -15px -15px 15px rgb(255, 255, 255); */
   }
     .note-title{
         overflow:hidden;
@@ -430,7 +437,7 @@ body {
 
 /* From Uiverse.io by elijahgummer */ 
 .tooltip-container {
-    --background-tooltip-container: #ffffff00;
+    --background-tooltip-container: #ffffff;
     position: relative;
     background: var(--background-tooltip-container);
     cursor: pointer;
@@ -439,6 +446,12 @@ body {
     height: 16px;
     border-radius: 6px;
     font-size: 17px;
+    text-align: center;
+  }
+
+  .tooltip-container:hover{
+    background: #f4df00;
+    /* color: white; */
   }
   
   .tooltip {
@@ -492,7 +505,7 @@ body {
 .copy {
     /* button */
     --button-bg: #35343400;
-    --button-hover-bg: #828282;
+    --button-hover-bg: #965000;
     --button-text-color: #353434;
     --button-hover-text-color: #ffffff;
     --button-border-radius: 8px;
